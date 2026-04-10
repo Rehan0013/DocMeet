@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { sendAppointmentCompletionEmail } from "@/lib/mail";
 
 /**
  * Set doctor's availability slots
@@ -406,7 +407,22 @@ export async function markAppointmentCompleted(formData) {
       data: {
         status: "COMPLETED",
       },
+      include: {
+        patient: true,
+        doctor: true,
+      },
     });
+
+    // Send Completion Email
+    try {
+      await sendAppointmentCompletionEmail(
+        updatedAppointment,
+        updatedAppointment.doctor,
+        updatedAppointment.patient
+      );
+    } catch (error) {
+      console.error("Failed to send completion email:", error);
+    }
 
     revalidatePath("/doctor");
     return { success: true, appointment: updatedAppointment };

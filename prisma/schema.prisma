@@ -83,6 +83,7 @@ model Appointment {
   // Video session fields
   videoSessionId    String?  // Vonage Video API Session ID
   videoSessionToken String?  // Optional: Can store tokens if needed
+  reminderSent      Boolean  @default(false)
   
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

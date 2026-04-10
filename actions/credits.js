@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { format } from "date-fns";
+import { sendPaymentConfirmationEmail } from "@/lib/mail";
 
 // Define credit allocations per plan
 const PLAN_CREDITS = {
@@ -104,6 +105,17 @@ export async function checkAndAllocateCredits(user) {
 
       return updatedUser;
     });
+
+    // Send Payment Confirmation Email
+    try {
+      await sendPaymentConfirmationEmail(
+        updatedUser,
+        currentPlan,
+        creditsToAllocate
+      );
+    } catch (error) {
+      console.error("Failed to send payment email:", error);
+    }
 
     // Revalidate relevant paths to reflect updated credit balance
     revalidatePath("/doctors");

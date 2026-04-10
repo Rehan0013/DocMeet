@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { sendAppointmentBookingEmail } from "@/lib/mail";
 import { deductCreditsForAppointment } from "@/actions/credits";
 import { Vonage } from "@vonage/server-sdk";
 import { addDays, addMinutes, format, isBefore, endOfDay } from "date-fns";
@@ -133,7 +134,22 @@ export async function bookAppointment(formData) {
         status: "SCHEDULED",
         videoSessionId: sessionId, // Store the Vonage session ID
       },
+      include: {
+        patient: true,
+        doctor: true,
+      },
     });
+
+    // Send Booking Email
+    try {
+      await sendAppointmentBookingEmail(
+        appointment,
+        appointment.doctor,
+        appointment.patient
+      );
+    } catch (error) {
+      console.error("Failed to send booking email:", error);
+    }
 
     revalidatePath("/appointments");
     return { success: true, appointment: appointment };
