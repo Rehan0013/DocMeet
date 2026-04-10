@@ -9,10 +9,23 @@ import { Vonage } from "@vonage/server-sdk";
 import { addDays, addMinutes, format, isBefore, endOfDay } from "date-fns";
 import { Auth } from "@vonage/auth";
 
+// Helper to format Vonage Private Key properly for RS256 signing
+const formatPrivateKey = (key) => {
+  if (!key) return "";
+  if (key.includes("\n")) return key;
+  // If key is a single line, we need to wrap it every 64 characters
+  const header = "-----BEGIN PRIVATE KEY-----";
+  const footer = "-----END PRIVATE KEY-----";
+  let body = key.replace(header, "").replace(footer, "").replace(/\s/g, "");
+  const lines = body.match(/.{1,64}/g) || [];
+  return `${header}\n${lines.join("\n")}\n${footer}`;
+};
+
 // Initialize Vonage Video API client
+const privateKey = formatPrivateKey(process.env.VONAGE_PRIVATE_KEY);
 const credentials = new Auth({
   applicationId: process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID,
-  privateKey: process.env.VONAGE_PRIVATE_KEY,
+  privateKey: privateKey,
 });
 const options = {};
 const vonage = new Vonage(credentials, options);
@@ -111,7 +124,17 @@ export async function bookAppointment(formData) {
     }
 
     // Create a new Vonage Video API session
-    const sessionId = await createVideoSession();
+    let sessionId = null;
+    try {
+      if (process.env.VONAGE_PRIVATE_KEY && process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID) {
+        sessionId = await createVideoSession();
+      } else {
+        console.warn("Vonage credentials missing, booking without video session");
+      }
+    } catch (videoError) {
+      console.error("Failed to create video session, proceeding with booking:", videoError);
+      // We proceed even if video fails to ensure appointment is booked
+    }
 
     // Deduct credits from patient and add to doctor
     const { success, error } = await deductCreditsForAppointment(
