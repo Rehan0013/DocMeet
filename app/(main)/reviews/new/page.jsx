@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { submitReview } from "@/actions/reviews";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
-export default function ReviewPage({ params }) {
+function ReviewContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const appointmentId = searchParams.get("appointmentId");
@@ -137,5 +137,19 @@ export default function ReviewPage({ params }) {
         </Card>
       </motion.div>
     </div>
+  );
+}
+
+export default function ReviewPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto py-20 text-center animate-pulse">
+        <div className="w-16 h-16 bg-muted rounded-full mx-auto mb-4" />
+        <div className="h-8 w-48 bg-muted mx-auto mb-2" />
+        <div className="h-4 w-64 bg-muted mx-auto" />
+      </div>
+    }>
+      <ReviewContent />
+    </Suspense>
   );
 }
