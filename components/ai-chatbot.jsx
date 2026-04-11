@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { io } from "socket.io-client";
-import { MessageCircle, X, Send, Bot, User, Stethoscope, Loader2, Calendar } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Stethoscope, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
 import Link from "next/link";
 
 export default function AIChatBot() {
@@ -20,7 +18,6 @@ export default function AIChatBot() {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -31,12 +28,38 @@ export default function AIChatBot() {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    const newSocket = io(window.location.origin);
-    setSocket(newSocket);
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!inputValue.trim() || isLoading) return;
 
-    newSocket.on("ai_message", (data) => {
-      setIsLoading(false);
+    const userMessage = {
+      role: "user",
+      content: inputValue,
+      timestamp: new Date(),
+    };
+
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInputValue("");
+    setIsLoading(true);
+
+    try {
+      // Send message and history to the API
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: inputValue,
+          history: messages.map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to get AI response");
+
+      const data = await response.json();
+
       setMessages((prev) => [
         ...prev,
         {
@@ -45,25 +68,19 @@ export default function AIChatBot() {
           timestamp: new Date(),
         },
       ]);
-    });
-
-    return () => newSocket.close();
-  }, []);
-
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (!inputValue.trim() || !socket) return;
-
-    const userMessage = {
-      role: "user",
-      content: inputValue,
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    socket.emit("chat_message", { text: inputValue, threadId: socket.id });
-    setInputValue("");
-    setIsLoading(true);
+    } catch (error) {
+      console.error("Chat Error:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "I'm sorry, I encountered an error connecting to the service. Please try again.",
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const parseMessage = (content) => {
@@ -124,7 +141,7 @@ export default function AIChatBot() {
                   <h3 className="font-bold text-sm">DocMeet Assistant</h3>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 bg-emerald-300 rounded-full animate-pulse" />
-                    <span className="text-[10px] text-emerald-100 font-medium">Always Online</span>
+                    <span className="text-[10px] text-emerald-100 font-medium">Online</span>
                   </div>
                 </div>
               </div>
