@@ -1,35 +1,20 @@
-// /app/doctors/[id]/_components/doctor-profile.jsx
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  User,
-  Calendar,
-  Clock,
-  Medal,
-  FileText,
-  ChevronDown,
-  ChevronUp,
-  AlertCircle,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Star, MessageSquare, Calendar, Clock, FileText, Medal, User, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { SlotPicker } from "./slot-picker";
 import { AppointmentForm } from "./appointment-form";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
-export function DoctorProfile({ doctor, availableDays }) {
+export function DoctorProfile({ doctor, availableDays, reviews }) {
   const [showBooking, setShowBooking] = useState(false);
+  // ... rest of state and handlers ...
   const [selectedSlot, setSelectedSlot] = useState(null);
   const router = useRouter();
 
@@ -61,7 +46,7 @@ export function DoctorProfile({ doctor, availableDays }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {/* Left column - Doctor Photo and Quick Info (fixed on scroll) */}
+      {/* ... Left Column ... */}
       <div className="md:col-span-1">
         <div className="md:sticky md:top-24">
           <Card className="border-emerald-900/20">
@@ -122,7 +107,7 @@ export function DoctorProfile({ doctor, availableDays }) {
         </div>
       </div>
 
-      {/* Right column - Doctor Details and Booking Section */}
+      {/* Right column - Doctor Details and Reviews */}
       <div className="md:col-span-2 space-y-6">
         <Card className="border-emerald-900/20">
           <CardHeader>
@@ -222,6 +207,84 @@ export function DoctorProfile({ doctor, availableDays }) {
             </Card>
           </div>
         )}
+
+        {/* Reviews Section */}
+        <Card className="border-emerald-900/20">
+          <CardHeader>
+            <CardTitle className="text-xl font-bold text-white flex items-center justify-between">
+              <div className="flex items-center">
+                <MessageSquare className="h-5 w-5 mr-2 text-emerald-400" />
+                Patient Reviews
+              </div>
+              {reviews.length > 0 && (
+                <Badge variant="secondary" className="bg-emerald-900/30 text-emerald-400">
+                  {reviews.length} feedback{reviews.length > 1 ? "s" : ""}
+                </Badge>
+              )}
+            </CardTitle>
+            <CardDescription>
+              Recent feedback from verified patients
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {reviews.length > 0 ? (
+              <div className="space-y-4">
+                {reviews.map((review) => (
+                  <div 
+                    key={review.id} 
+                    className="p-5 rounded-xl bg-emerald-900/5 border border-emerald-900/10 hover:border-emerald-900/30 hover:bg-emerald-900/10 transition-all duration-300 group"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10 border border-emerald-500/20">
+                          <AvatarImage src={review.patient.imageUrl} />
+                          <AvatarFallback className="bg-emerald-900/40 text-emerald-400 font-bold">
+                            {review.patient.name?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h4 className="font-bold text-white group-hover:text-emerald-400 transition-colors uppercase tracking-wider text-xs">
+                            {review.patient.name}
+                          </h4>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-tight font-medium">
+                            {new Date(review.createdAt).toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-3 w-3 ${
+                              i < review.rating
+                                ? "text-yellow-400 fill-yellow-400"
+                                : "text-emerald-900/20"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed italic text-sm pl-1 border-l-2 border-emerald-500/20 py-1">
+                      &quot;{review.comment}&quot;
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16 border-2 border-dashed border-emerald-900/10 rounded-2xl bg-emerald-950/10">
+                <MessageSquare className="h-12 w-12 mx-auto text-emerald-900/20 mb-4" />
+                <h3 className="text-lg font-medium text-white mb-2">Pristine Profile</h3>
+                <p className="text-muted-foreground text-sm max-w-[280px] mx-auto">
+                  This specialist hasn&apos;t received their first performance review yet. Be the first to share your experience!
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
