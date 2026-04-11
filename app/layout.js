@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import { dark } from "@clerk/themes";
 import { ThemeProvider } from "@/components/theme-provider";
 import AIChatBot from "@/components/ai-chatbot";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,12 +37,7 @@ export default function RootLayout({ children }) {
             <main className="min-h-screen">{children}</main>
             <Toaster richColors />
             <AIChatBot />
-
-            <footer className="bg-muted/50 py-12">
-              <div className="container mx-auto px-4 text-center text-gray-200">
-                <p>Build By RUS (Rehan, Utkarsh, Sudeep)</p>
-              </div>
-            </footer>
+            <Footer />
           </ThemeProvider>
         </body>
       </html>
