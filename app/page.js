@@ -205,13 +205,6 @@ export default async function Home() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     asChild
-                    size="lg"
-                    className="bg-emerald-600 text-white hover:bg-emerald-700"
-                  >
-                    <Link href="/sign-up">Sign Up Now</Link>
-                  </Button>
-                  <Button
-                    asChild
                     variant="outline"
                     size="lg"
                     className="border-emerald-700/30 hover:bg-muted/80"
