@@ -125,7 +125,7 @@ export async function getDoctorAvailability() {
  * Get doctor's upcoming appointments
  */
 
-export async function getDoctorAppointments() {
+export async function getDoctorAppointments(type = "upcoming") {
   const { userId } = await auth();
 
   if (!userId) {
@@ -144,18 +144,21 @@ export async function getDoctorAppointments() {
       throw new Error("Doctor not found");
     }
 
+    const statusFilter =
+      type === "upcoming"
+        ? { in: ["SCHEDULED"] }
+        : { in: ["COMPLETED", "CANCELLED"] };
+
     const appointments = await db.appointment.findMany({
       where: {
         doctorId: doctor.id,
-        status: {
-          in: ["SCHEDULED"],
-        },
+        status: statusFilter,
       },
       include: {
         patient: true,
       },
       orderBy: {
-        startTime: "asc",
+        startTime: type === "upcoming" ? "asc" : "desc",
       },
     });
 
