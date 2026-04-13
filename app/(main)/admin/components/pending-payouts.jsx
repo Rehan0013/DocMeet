@@ -263,7 +263,7 @@ export function PendingPayouts({ payouts }) {
                   </div>
                   <div className="border-t border-emerald-900/20 pt-3">
                     <p className="text-sm font-medium text-muted-foreground">
-                      PayPal Email
+                      UPI id
                     </p>
                     <p className="text-white">{selectedPayout.paypalEmail}</p>
                   </div>
@@ -353,7 +353,7 @@ export function PendingPayouts({ payouts }) {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">PayPal:</span>
+                  <span className="text-muted-foreground">UPI id:</span>
                   <span className="text-white text-sm">
                     {selectedPayout.paypalEmail}
                   </span>

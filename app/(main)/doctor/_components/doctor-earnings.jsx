@@ -53,7 +53,7 @@ export function DoctorEarnings({ earnings, payouts = [] }) {
     e.preventDefault();
 
     if (!paypalEmail) {
-      toast.error("PayPal email is required");
+      toast.error("UPI id is required");
       return;
     }
 
@@ -198,7 +198,7 @@ export function DoctorEarnings({ earnings, payouts = [] }) {
                     </p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">PayPal Email</p>
+                    <p className="text-muted-foreground">UPI id</p>
                     <p className="text-white font-medium text-xs">
                       {pendingPayout.paypalEmail}
                     </p>
@@ -259,7 +259,7 @@ export function DoctorEarnings({ earnings, payouts = [] }) {
             <AlertDescription className="text-sm">
               <strong>Payout Structure:</strong> You earn $8 per credit.
               Platform fee is $2 per credit. Payouts include all your available
-              credits and are processed via PayPal.
+              credits and are processed via UPI id.
             </AlertDescription>
           </Alert>
 
@@ -344,18 +344,18 @@ export function DoctorEarnings({ earnings, payouts = [] }) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="paypalEmail">PayPal Email</Label>
+              <Label htmlFor="paypalEmail">UPI id</Label>
               <Input
                 id="paypalEmail"
                 type="email"
-                placeholder="your-email@paypal.com"
+                placeholder="your-upi-id"
                 value={paypalEmail}
                 onChange={(e) => setPaypalEmail(e.target.value)}
                 className="bg-background border-emerald-900/20"
                 required
               />
               <p className="text-sm text-muted-foreground">
-                Enter the PayPal email where you want to receive the payout.
+                Enter the UPI id where you want to receive the payout.
               </p>
             </div>
 
@@ -364,7 +364,7 @@ export function DoctorEarnings({ earnings, payouts = [] }) {
               <AlertDescription className="text-sm">
                 Once processed by admin, {availableCredits} credits will be
                 deducted from your account and ${availablePayout.toFixed(2)}{" "}
-                will be sent to your PayPal.
+                will be sent to your UPI id.
               </AlertDescription>
             </Alert>
 
