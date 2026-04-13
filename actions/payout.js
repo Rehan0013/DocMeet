@@ -33,7 +33,7 @@ export async function requestPayout(formData) {
     const paypalEmail = formData.get("paypalEmail");
 
     if (!paypalEmail) {
-      throw new Error("PayPal email is required");
+      throw new Error("UPI id is required");
     }
 
     // Check if doctor has any pending payout requests
