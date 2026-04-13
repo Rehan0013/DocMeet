@@ -347,7 +347,7 @@ export function DoctorEarnings({ earnings, payouts = [] }) {
               <Label htmlFor="paypalEmail">UPI id</Label>
               <Input
                 id="paypalEmail"
-                type="email"
+                type="text"
                 placeholder="your-upi-id"
                 value={paypalEmail}
                 onChange={(e) => setPaypalEmail(e.target.value)}

@@ -26,8 +26,14 @@ export async function POST(req) {
     // Extract the last AI message
     const lastMessage = response.messages[response.messages.length - 1];
 
+    // Extract and normalize the message content
+    let content = lastMessage.content;
+    if (Array.isArray(content)) {
+      content = content.map(part => typeof part === 'string' ? part : (part.text || '')).join('');
+    }
+
     return NextResponse.json({
-      text: lastMessage.content,
+      text: content,
     });
   } catch (error) {
     console.error("Chat API Error:", error);

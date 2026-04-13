@@ -84,14 +84,26 @@ export default function AIChatBot() {
   };
 
   const parseMessage = (content) => {
-    const doctorsMatch = content.match(/```DOCTORS_JSON\s*([\s\S]*?)\s*```/);
+    // Ensure content is a string. If it's an array (typical for some AI responses), join it.
+    let messageContent = "";
+    if (typeof content === "string") {
+      messageContent = content;
+    } else if (Array.isArray(content)) {
+      messageContent = content
+        .map((part) => (typeof part === "string" ? part : part.text || ""))
+        .join("");
+    } else {
+      messageContent = String(content || "");
+    }
+
+    const doctorsMatch = messageContent.match(/```DOCTORS_JSON\s*([\s\S]*?)\s*```/);
     let doctors = [];
-    let textContent = content;
+    let textContent = messageContent;
 
     if (doctorsMatch) {
       try {
         doctors = JSON.parse(doctorsMatch[1]);
-        textContent = content.replace(doctorsMatch[0], "").trim();
+        textContent = messageContent.replace(doctorsMatch[0], "").trim();
       } catch (e) {
         console.error("Failed to parse doctors JSON", e);
       }
