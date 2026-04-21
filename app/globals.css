@@ -30,9 +30,11 @@
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  --primary: oklch(0.40 0.08 165); /* Deep Emerald */
+  --primary: oklch(0.40 0.08 165);
+  /* Deep Emerald */
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.85 0.15 180); /* Crisp Teal */
+  --secondary: oklch(0.85 0.15 180);
+  /* Crisp Teal */
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --border: oklch(0.922 0 0);
@@ -41,11 +43,14 @@
 }
 
 .dark {
-  --background: oklch(0.22 0 0); /* Obsidian Charcoal */
+  --background: oklch(0.22 0 0);
+  /* Obsidian Charcoal */
   --foreground: oklch(0.92 0 0);
-  --primary: oklch(0.81 0.11 165); /* Surgical Emerald Glow */
+  --primary: oklch(0.81 0.11 165);
+  /* Surgical Emerald Glow */
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.88 0.14 185); /* Electric Clinical Teal */
+  --secondary: oklch(70.636% 0.12421 183.328);
+  /* Electric Clinical Teal */
   --muted: oklch(0.35 0.02 165 / 15%);
   --muted-foreground: oklch(0.75 0.05 165);
   --border: oklch(1 0 0 / 8%);
@@ -58,10 +63,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  h1, h2, h3, h4, .font-headline {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-headline {
     @apply font-headline tracking-tight;
   }
 }
@@ -82,4 +93,3 @@
 @utility glass-card {
   @apply bg-card/40 backdrop-blur-3xl border border-white/5 shadow-2xl;
 }
-
