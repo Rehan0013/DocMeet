@@ -13,9 +13,9 @@ export default async function Home() {
   const { reviews } = await getTopReviews();
 
   return (
-    <div className="bg-background min-h-screen technical-grid">
+    <div className="bg-background min-h-screen">
       {/* Hero Section - Centered & Premium */}
-      <section className="relative pt-32 pb-24 overflow-hidden">
+      <section className="relative pt-32 pb-24 overflow-hidden technical-grid">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-emerald-500/10 blur-[120px] -z-10 rounded-full" />
 
@@ -138,7 +138,7 @@ export default async function Home() {
       </section>
 
       {/* How it Works - Stepper */}
-      <section className="py-24 border-y border-emerald-900/10">
+      <section className="py-24 border-y border-emerald-900/10 technical-grid">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">How it Works</h2>
@@ -170,8 +170,8 @@ export default async function Home() {
 
       {/* Pricing Section */}
       <section id="pricing" className="py-24 relative overflow-hidden">
-        {/* Subtle grid pattern background */}
-        <div className="absolute inset-0 opacity-[0.03] -z-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #10b981 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+        {/* Subtle background glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[100px] -z-10" />
 
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -225,7 +225,7 @@ export default async function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24">
+      <section className="py-24 technical-grid">
         <div className="container mx-auto px-4">
           <div className="relative rounded-[2rem] bg-card/30 border border-white/5 p-12 md:p-24 text-center overflow-hidden glass-card">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px] -z-10" />
