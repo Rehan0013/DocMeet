@@ -43,7 +43,7 @@
 }
 
 .dark {
-  --background: oklch(0.22 0 0);
+  --background: oklch(14.958% 0.00002 271.152);
   /* Obsidian Charcoal */
   --foreground: oklch(0.92 0 0);
   --primary: oklch(0.81 0.11 165);
