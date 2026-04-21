@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
@@ -8,7 +8,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import AIChatBot from "@/components/ai-chatbot";
 import Footer from "@/components/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 
 export const metadata = {
   title: "Doctors Appointment App",
@@ -26,7 +27,7 @@ export default function RootLayout({ children }) {
         <head>
           <link rel="icon" href="/logo.png" sizes="any" />
         </head>
-        <body className={`${inter.className}`}>
+        <body className={`${inter.variable} ${manrope.variable} font-sans antialiased`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

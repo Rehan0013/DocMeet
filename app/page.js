@@ -13,7 +13,7 @@ export default async function Home() {
   const { reviews } = await getTopReviews();
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen technical-grid">
       {/* Hero Section - Centered & Premium */}
       <section className="relative pt-32 pb-24 overflow-hidden">
         {/* Subtle background glow */}
@@ -27,9 +27,9 @@ export default async function Home() {
             The Future of Healthcare is Here
           </Badge>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8 tracking-tight">
-            Connect with experts <br />
-            <span className="text-emerald-500">whenever you need.</span>
+          <h1 className="text-5xl md:text-8xl font-bold tracking-tighter mb-8 leading-[0.9]">
+            Connect with <span className="medical-glow-text">experts</span> <br />
+            whenever you need.
           </h1>
 
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -41,7 +41,7 @@ export default async function Home() {
             <Button
               asChild
               size="xl"
-              className="bg-emerald-600 text-white hover:bg-emerald-700 px-8 h-14 text-lg rounded-full shadow-lg shadow-emerald-900/20"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 h-14 text-lg rounded-md shadow-2xl shadow-primary/20 transition-all hover:scale-105 active:scale-95"
             >
               <Link href="/onboarding">
                 Get Started <ArrowRight className="ml-2 h-5 w-5" />
@@ -51,7 +51,7 @@ export default async function Home() {
               asChild
               variant="outline"
               size="xl"
-              className="border-emerald-700/30 hover:bg-muted/80 px-8 h-14 text-lg rounded-full"
+              className="border-primary/20 hover:bg-muted text-foreground px-8 h-14 text-lg rounded-md"
             >
               <Link href="/doctors">Find a Doctor</Link>
             </Button>
@@ -96,46 +96,42 @@ export default async function Home() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Primary Feature - Large */}
-            <Card className="md:col-span-2 md:row-span-3 bg-emerald-900/10 border-emerald-800/20 overflow-hidden relative group">
-              <div className="p-6 md:p-10 relative z-10 h-full flex flex-col">
-                <div className="bg-emerald-500 p-3 rounded-2xl w-fit mb-6 shadow-lg shadow-emerald-500/20">
+            <Card className="md:col-span-2 md:row-span-3 bg-card/50 border-none shadow-none overflow-hidden relative group">
+              <div className="p-10 md:p-16 relative z-10 h-full flex flex-col">
+                <div className="medical-glow p-4 rounded-xl w-fit mb-8 shadow-lg shadow-primary/20">
                   {features[2].icon}
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{features[2].title}</h3>
-                <p className="text-muted-foreground text-lg max-w-md mb-8">
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">{features[2].title}</h3>
+                <p className="text-muted-foreground text-xl max-w-md mb-12">
                   {features[2].description}
                 </p>
-                <div className="relative flex-grow min-h-[300px] rounded-xl overflow-hidden border border-emerald-800/30">
+                <div className="relative flex-grow min-h-[400px] rounded-2xl overflow-hidden glass-card">
                   <Image
                     src="/banner2.png"
                     alt="Video Consultation"
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                 </div>
               </div>
             </Card>
 
-            {/* Secondary Features - 3 smaller cards */}
+            {/* Secondary Features - 3 smaller cards using Tonal Layering (No-Line Rule) */}
             {features.filter((_, i) => i !== 2).slice(0, 3).map((feature, index) => (
-              <Card key={index} className="bg-card border-emerald-900/20 hover:border-emerald-800/40 transition-all group flex flex-col justify-center">
-                <CardHeader className="py-4 px-6 scale-95 origin-left">
-                  <div className="bg-muted p-2 rounded-lg w-fit mb-2 group-hover:bg-emerald-900/30 transition-colors">
-                    {feature.icon}
-                  </div>
-                  <CardTitle className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">
-                    {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="py-0 px-6 pb-4 scale-95 origin-left">
-                  <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
+              <div key={index} className="bg-card/30 hover:bg-card/50 p-8 rounded-2xl transition-all duration-300 group flex flex-col items-start justify-center border-l-2 border-transparent hover:border-primary/40">
+                <div className="bg-muted p-4 rounded-xl w-fit mb-6 text-primary group-hover:bg-primary/10 transition-colors">
+                  {feature.icon}
+                </div>
+                <h4 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                  {feature.title}
+                </h4>
+                <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                  {feature.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
@@ -160,12 +156,12 @@ export default async function Home() {
               { title: "Book a Slot", desc: "Select a convenient time from the doctor's available schedule.", icon: <Clock className="h-6 w-6" /> },
               { title: "Start Consultation", desc: "Join the secure video call and get professional medical advice immediately.", icon: <CheckCircle2 className="h-6 w-6" /> }
             ].map((step, i) => (
-              <div key={i} className="flex flex-col items-center text-center group border-2 border-emerald-900/40 rounded-lg p-4">
-                <div className="w-16 h-16 rounded-full bg-background border-2 border-emerald-900/40 flex items-center justify-center text-emerald-400 mb-6 group-hover:border-emerald-500 group-hover:bg-emerald-900/10 transition-all duration-300">
+              <div key={i} className="flex flex-col items-center text-center group bg-card/20 p-10 rounded-3xl transition-all hover:bg-card/40">
+                <div className="w-20 h-20 rounded-2xl bg-muted/50 flex items-center justify-center text-primary mb-8 group-hover:medical-glow group-hover:text-primary-foreground transition-all duration-500 shadow-xl">
                   {step.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-muted-foreground">{step.desc}</p>
+                <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -211,13 +207,13 @@ export default async function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-[#0a0a0a] relative border-t border-emerald-900/10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
             <div className="text-center md:text-left">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Voice of our patients</h2>
+              <h2 className="text-3xl md:text-6xl font-bold tracking-tighter mb-4">Voice of our <span className="medical-glow-text">patients</span></h2>
               <p className="text-muted-foreground text-lg max-w-xl">
                 Real stories from real patients. See why thousands trust DocMeet for their healthcare journey.
               </p>
@@ -231,19 +227,19 @@ export default async function Home() {
       {/* Final CTA */}
       <section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="relative rounded-3xl bg-emerald-950/40 border border-emerald-800/30 p-12 md:p-20 text-center overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-600/10 blur-[100px] -z-10" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-600/10 blur-[100px] -z-10" />
+          <div className="relative rounded-[2rem] bg-card/30 border border-white/5 p-12 md:p-24 text-center overflow-hidden glass-card">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px] -z-10" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 blur-[120px] -z-10" />
 
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to prioritize your health?</h2>
-            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-10">
+            <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tighter">Ready to <span className="medical-glow-text">prioritize</span> your health?</h2>
+            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12">
               Join thousands of others who have switched to a smarter, faster, and more personal healthcare experience.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="xl" className="bg-emerald-600 hover:bg-emerald-700 rounded-full h-14 px-10">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button asChild size="xl" className="medical-glow text-primary-foreground hover:opacity-90 rounded-md h-16 px-12 text-lg shadow-2xl shadow-primary/20">
                 <Link href="/onboarding">Get Started Now</Link>
               </Button>
-              <Button asChild variant="outline" size="xl" className="rounded-full h-14 px-10 border-emerald-700/50">
+              <Button asChild variant="outline" size="xl" className="rounded-md h-16 px-12 text-lg border-primary/20 hover:bg-muted font-medium">
                 <Link href="#pricing">View Pricing</Link>
               </Button>
             </div>
