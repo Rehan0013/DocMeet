@@ -1,4 +1,4 @@
-<img width="1470" alt="Screenshot 2025-05-27 at 1 18 06 PM" src="https://github.com/user-attachments/assets/a0d3d443-f5e1-433a-85a7-a76a3866858d" />
+<img width="1470" alt="Screenshot 2025-05-27 at 1 18 06 PM" src="https://ik.imagekit.io/ycv1ftr9d/clothy-uploads/Screenshot_2026-04-21_at_20.45.35__Y_EfaSYn.png" />
 
 # 🩺 DocMeet - Modern Doctor Appointment & Consultation Platform
 
