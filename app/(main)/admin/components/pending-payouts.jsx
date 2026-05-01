@@ -34,7 +34,7 @@ import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
 import { BarLoader } from "react-spinners";
 
-export function PendingPayouts({ payouts }) {
+export default function PendingPayouts({ payouts }) {
   const [selectedPayout, setSelectedPayout] = useState(null);
   const [showApproveDialog, setShowApproveDialog] = useState(false);
 

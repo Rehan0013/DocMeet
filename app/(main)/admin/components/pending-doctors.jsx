@@ -26,7 +26,7 @@ import useFetch from "@/hooks/use-fetch";
 import { useEffect } from "react";
 import { BarLoader } from "react-spinners";
 
-export function PendingDoctors({ doctors }) {
+export default function PendingDoctors({ doctors }) {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   // Custom hook for approve/reject server action

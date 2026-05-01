@@ -16,7 +16,7 @@ import { updateDoctorActiveStatus } from "@/actions/admin";
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
 
-export function VerifiedDoctors({ doctors }) {
+export default function VerifiedDoctors({ doctors }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [targetDoctor, setTargetDoctor] = useState(null);
   const [actionType, setActionType] = useState(null);
